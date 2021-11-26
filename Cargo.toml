@@ -1,0 +1,53 @@
+[package]
+name = "twin_games"
+version = "0.1.0"
+edition = "2021"
+resolver = "2"
+
+[workspace]
+members = [
+    "engine",
+    "games/*"
+]
+
+[dev-dependencies]
+engine = { path = "engine" }
+wasm-bindgen = "0.2.78"
+bevy = { version = "0.5.0", default-features = false,    features = [
+     "bevy_render2",
+     "bevy_winit",
+     "bevy_core_pipeline"
+]}
+# should be better way to add crevice
+crevice = { version = "0.8.0", features = ["glam"] }
+bevy-inspector-egui = "0.6.1"
+bevy_egui = "0.7.1"
+ron = "0.7"
+hexasphere = "6.0.0"
+rand = "0.8"
+serde = { version = "1.0.130", features = ["serde_derive"] }
+
+# Dependencies for native only.
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+bevy = {version = "0.5", default-features = false, features = ["bevy_wgpu", "bevy_winit", "render", "x11"]}
+
+# Dependencies for WASM only.
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+bevy = {version = "0.5", default-features = false, features = ["bevy_winit", "render"]}
+
+
+[patch.crates-io]
+bevy = { path = "../bevy" }
+bevy_egui = { path = "../bevy_egui" }
+bevy-inspector-egui = { path = "../bevy-inspector-egui" }
+crevice = { path = "../bevy/crates/crevice" }
+#bevy = { git = "https://github.com/slyedoc/bevy", branch = "main" }
+#bevy_egui = { git = "https://github.com/slyedoc/bevy_egui", branch = "pipelined" }
+#bevy-inspector-egui = { git = "https://github.com/slyedoc/bevy-inspector-egui", branch = "pipelined-editor" }
+#bevy_rapier2d = { path = "../bevy_rapier/bevy_rapier2d" }
+#nalgebra = { path = "../nalgebra" }
+#bevy_rapier2d = { git = "https://github.com/slyedoc/bevy_rapier", branch = "bevy-main-fixes" }
+#parry3d = { git = "https://github.com/deontologician/parry", branch = "bevy-components" }
+#parry2d = { git = "https://github.com/deontologician/parry", branch = "bevy-components" }
+#rapier3d = { git = "https://github.com/deontologician/rapier", branch = "dep-hacks" }
+#rapier2d = { git = "https://github.com/deontologician/rapier", branch = "dep-hacks" }
