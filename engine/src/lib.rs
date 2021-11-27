@@ -36,7 +36,7 @@ impl Plugin for StandardEnvironmentPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(Msaa { samples: 4 })
             .insert_resource(WindowDescriptor {
-                title: "Shader".to_string(),
+                title: "Twin Games".to_string(),
                 width: 800.0,
                 height: 600.0,
                 vsync: false, // disable to break 60 fps

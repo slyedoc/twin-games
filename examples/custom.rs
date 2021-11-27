@@ -1,11 +1,4 @@
-use bevy::{
-    render2::{
-        view::{Visibility, ComputedVisibility},
-        mesh::{Mesh, shape},
-        camera::PerspectiveCameraBundle},
-        prelude::{App, Commands, ResMut, Assets, Transform, GlobalTransform, Color},
-         math::Vec3
-    };
+use bevy::{math::Vec3, pbr2::*, prelude::{App, Assets, Commands, GlobalTransform, ResMut, Transform, info}, render2::{camera::PerspectiveCameraBundle, color::Color, mesh::{Mesh, shape}, view::{Visibility, ComputedVisibility}}};
 use engine::prelude::*;
 
 fn main() {
@@ -19,19 +12,23 @@ fn main() {
 fn setup(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<CustomMaterial>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
+
+    info!("setup cube");
     // cube
-    commands.spawn().insert_bundle((
-        meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
-        Transform::from_xyz(0.0, 0.5, 0.0),
-        GlobalTransform::default(),
-        Visibility::default(),
-        ComputedVisibility::default(),
-        materials.add(CustomMaterial {
-            color: Color::GREEN,
+    commands.spawn_bundle(PbrBundle {
+        mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
+        transform: Transform::from_xyz(0.0, 0.5, 0.0),    
+        material: materials.add(StandardMaterial {
+             base_color: Color::GREEN,
+             ..Default::default()
         }),
-    ));
+        ..Default::default()
+        // materials.add(CustomMaterial {
+        //     color: Color::GREEN,
+        // }),
+    });
 
     // camera
     commands.spawn_bundle(PerspectiveCameraBundle {
@@ -39,4 +36,11 @@ fn setup(
         ..Default::default()
     })
     .insert(CameraController::default());
+
+    commands.spawn_bundle(DirectionalLightBundle {
+        transform: GlobalTransform::new(
+            Transform::from_xyz(4.0, 8.0, 4.0),
+        ),
+        ..Default::default()
+    });
 }

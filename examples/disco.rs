@@ -1,19 +1,11 @@
-use bevy::{
-    core::Time,
-    ecs::prelude::*,
-    input::Input,
-    math::{Quat, Vec3},
-    pbr2::{
+use bevy::{core::Time, ecs::prelude::*, input::Input, math::{Quat, Vec3}, pbr2::{
         AmbientLight, DirectionalLight, DirectionalLightBundle, PbrBundle, PointLight,
         PointLightBundle, StandardMaterial,
-    },
-    prelude::{App, Assets, BuildChildren, KeyCode, Transform},
-    render2::{
+    }, prelude::{App, Assets, BuildChildren, KeyCode, Transform, info}, render2::{
         camera::{OrthographicProjection, PerspectiveCameraBundle},
         color::Color,
         mesh::{shape, Mesh},
-    },
-};
+    }};
 use engine::prelude::*;
 
 fn main() {
@@ -34,6 +26,7 @@ fn setup(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
+    info!("setup");
     // ground plane
     commands.spawn_bundle(PbrBundle {
         mesh: meshes.add(Mesh::from(shape::Plane { size: 10.0 })),
