@@ -9,8 +9,8 @@ pub struct ConfigPlugin;
 
 impl Plugin for ConfigPlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<PathConfig>()
-            .add_plugin(WindowConfigPlugin);
+        //app.init_resource::<PathConfig>()
+        //    .add_plugin(WindowConfigPlugin);
     }
 }
 
