@@ -1,5 +1,8 @@
 {
-  "cSpell.words": ["Vitesse"],
+  "cSpell.words": [
+    "",
+    "Firestore"
+  ],
   "prettier.enable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.codeActionsOnSave": {
@@ -9,4 +12,5 @@
     "*.css": "postcss",
   },
   "editor.formatOnSave": false,
+  "github.copilot.enable":{ "markdown": true}
 }
