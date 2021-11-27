@@ -5,11 +5,7 @@ use bevy::{
         PbrBundle,
         PointLight, StandardMaterial,
     },
-    prelude::{
-        App, Assets,         Transform,
-        CoreStage, StageLabel,
-        GlobalTransform,
-    },
+    prelude::*,
     render2::{
         camera::{PerspectiveCameraBundle},
         color::Color,
@@ -21,6 +17,8 @@ use bevy::{
 use wasm_bindgen::prelude::*;
 use rand::{thread_rng, Rng};
 use engine::prelude::*;
+
+
 
 #[wasm_bindgen]
 pub fn run() {
