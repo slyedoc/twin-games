@@ -1,11 +1,8 @@
 use bevy::{
     ecs::prelude::*,
     math::*,
-    pbr2::{
-        PbrBundle,
-        PointLight, StandardMaterial,
-    },
-    prelude::*,
+    pbr2::*,
+    prelude::{App, CoreStage, Assets, GlobalTransform, ResMut, Transform },
     render2::{
         camera::{PerspectiveCameraBundle},
         color::Color,
@@ -13,12 +10,9 @@ use bevy::{
     },
     core::FixedTimestep,
 };
-
-use wasm_bindgen::prelude::*;
 use rand::{thread_rng, Rng};
+use wasm_bindgen::prelude::*;
 use engine::prelude::*;
-
-
 
 #[wasm_bindgen]
 pub fn run() {

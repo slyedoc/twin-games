@@ -1,11 +1,16 @@
-use bevy::{core::Time, ecs::prelude::*, input::Input, math::{Quat, Vec3}, pbr2::{
-        AmbientLight, DirectionalLight, DirectionalLightBundle, PbrBundle, PointLight,
-        PointLightBundle, StandardMaterial,
-    }, prelude::{App, Assets, BuildChildren, KeyCode, Transform, info}, render2::{
+use bevy::{
+    core::{Name, Time},
+    ecs::prelude::*,
+    input::Input,
+    math::*,
+    pbr2::*,
+    prelude::{App, Assets, BuildChildren, KeyCode, Transform},
+    render2::{
         camera::{OrthographicProjection, PerspectiveCameraBundle},
         color::Color,
         mesh::{shape, Mesh},
-    }};
+    },
+};
 use engine::prelude::*;
 
 fn main() {
@@ -26,17 +31,18 @@ fn setup(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
-    info!("setup");
     // ground plane
-    commands.spawn_bundle(PbrBundle {
-        mesh: meshes.add(Mesh::from(shape::Plane { size: 10.0 })),
-        material: materials.add(StandardMaterial {
-            base_color: Color::WHITE,
-            perceptual_roughness: 1.0,
+    commands
+        .spawn_bundle(PbrBundle {
+            mesh: meshes.add(Mesh::from(shape::Plane { size: 10.0 })),
+            material: materials.add(StandardMaterial {
+                base_color: Color::WHITE,
+                perceptual_roughness: 1.0,
+                ..Default::default()
+            }),
             ..Default::default()
-        }),
-        ..Default::default()
-    });
+        })
+        .insert(Name::new("ground"));
 
     // left wall
     let mut transform = Transform::from_xyz(2.5, 2.5, 0.0);
@@ -50,7 +56,9 @@ fn setup(
             ..Default::default()
         }),
         ..Default::default()
-    });
+    })
+    .insert(Name::new("Wall"));
+
     // back (right) wall
     let mut transform = Transform::from_xyz(0.0, 2.5, -2.5);
     transform.rotate(Quat::from_rotation_x(std::f32::consts::FRAC_PI_2));
@@ -63,7 +71,8 @@ fn setup(
             ..Default::default()
         }),
         ..Default::default()
-    });
+    })
+    .insert(Name::new("Wall"));;
 
     // cube
     commands
@@ -76,7 +85,9 @@ fn setup(
             transform: Transform::from_xyz(0.0, 0.5, 0.0),
             ..Default::default()
         })
-        .insert(Movable);
+        .insert(Movable)
+        .insert(Name::new("Cube"));
+
     // sphere
     commands
         .spawn_bundle(PbrBundle {
@@ -91,7 +102,8 @@ fn setup(
             transform: Transform::from_xyz(1.5, 1.0, 1.5),
             ..Default::default()
         })
-        .insert(Movable);
+        .insert(Movable)
+        .insert(Name::new("Sphere"));
 
     // ambient light
     commands.insert_resource(AmbientLight {
@@ -124,7 +136,8 @@ fn setup(
                 }),
                 ..Default::default()
             });
-        });
+        })
+        .insert(Name::new("PointLight - Red"));
 
     // green point light
     commands
@@ -151,7 +164,8 @@ fn setup(
                 }),
                 ..Default::default()
             });
-        });
+        })
+        .insert(Name::new("PointLight - Green"));
 
     // blue point light
     commands
@@ -178,7 +192,8 @@ fn setup(
                 }),
                 ..Default::default()
             });
-        });
+        })
+        .insert(Name::new("PointLight - Blue"));
 
     // directional 'sun' light
     const HALF_SIZE: f32 = 10.0;
@@ -202,14 +217,17 @@ fn setup(
             ..Default::default()
         },
         ..Default::default()
-    });
+    })
+    .insert(Name::new("DirectionalLight"));
 
     // camera
-    commands.spawn_bundle(PerspectiveCameraBundle {
-        transform: Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
-        ..Default::default()
-    })
-    .insert(CameraController::default());
+    commands
+        .spawn_bundle(PerspectiveCameraBundle {
+            transform: Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
+            ..Default::default()
+        })
+        .insert(CameraController::default())
+        .insert(Name::new("Camera"));
 }
 
 fn animate_light_direction(

@@ -1,4 +1,4 @@
-use bevy::{math::Vec3, pbr2::*, prelude::{App, Assets, Commands, GlobalTransform, ResMut, Transform, info}, render2::{camera::PerspectiveCameraBundle, color::Color, mesh::{Mesh, shape}, view::{Visibility, ComputedVisibility}}};
+use bevy::{core::Name, math::Vec3, pbr2::*, prelude::{App, Assets, Commands, GlobalTransform, ResMut, Transform, info}, render2::{camera::PerspectiveCameraBundle, color::Color, mesh::{Mesh, shape}, view::{Visibility, ComputedVisibility}}};
 use engine::prelude::*;
 
 fn main() {
@@ -28,19 +28,20 @@ fn setup(
         // materials.add(CustomMaterial {
         //     color: Color::GREEN,
         // }),
-    });
+    })
+    .insert(Name::new("Cube"));
 
     // camera
     commands.spawn_bundle(PerspectiveCameraBundle {
         transform: Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
         ..Default::default()
     })
-    .insert(CameraController::default());
+    .insert(CameraController::default())
+    .insert(Name::new("Camera"));
 
+    // light
     commands.spawn_bundle(DirectionalLightBundle {
-        transform: GlobalTransform::new(
-            Transform::from_xyz(4.0, 8.0, 4.0),
-        ),
+        transform: Transform::from_xyz(4.0, 8.0, 4.0),
         ..Default::default()
-    });
+    }).insert(Name::new("Light"));
 }

@@ -8,7 +8,7 @@ pub use window_config::*;
 pub struct ConfigPlugin;
 
 impl Plugin for ConfigPlugin {
-    fn build(&self, app: &mut App) {
+    fn build(&self, _app: &mut App) {
         //app.init_resource::<PathConfig>()
         //    .add_plugin(WindowConfigPlugin);
     }
