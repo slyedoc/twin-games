@@ -1,4 +1,5 @@
 import path from 'path'
+import fs from 'fs'
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
@@ -7,15 +8,11 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import Markdown from 'vite-plugin-md'
-// import WindiCSS from 'vite-plugin-windicss'
 import { VitePWA } from 'vite-plugin-pwa'
 import Inspect from 'vite-plugin-inspect'
-import Prism from 'markdown-it-prism'
-import LinkAttributes from 'markdown-it-link-attributes'
-//import { VuetifyResolver } from './src/modules/vuetify'
+import ViteRsw from 'vite-plugin-rsw'
 
-const markdownWrapperClasses = 'prose prose-sm m-auto text-left'
+// https://vitejs.dev/config/
 
 export default defineConfig({
   resolve: {
@@ -24,14 +21,18 @@ export default defineConfig({
     },
   },
   plugins: [
-    Vue({
-      include: [/\.vue$/, /\.md$/],
+    // https://github.com/lencx/vite-plugin-rsw#plugin-options
+    // https://rustwasm.github.io/docs/wasm-pack/commands/build.html
+    ViteRsw({
+      root: '../../games',
+      crates: getDirectories('../../games').map((dir) => { return { name: `${dir}`, outDir: `../../packages/wasm/public/${dir}` } }),
     }),
 
+    // https://github.com/vitejs/vite/tree/main/packages/plugin-vue#readme
+    Vue(),
+
     // https://github.com/hannoeru/vite-plugin-pages
-    Pages({
-      extensions: ['vue', 'md'],
-    }),
+    Pages(),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts(),
@@ -50,10 +51,10 @@ export default defineConfig({
     // https://github.com/antfu/unplugin-vue-components
     Components({
       // allow auto load markdown components under `./src/components/`
-      extensions: ['vue', 'md'],
+      extensions: ['vue'],
 
       // allow auto import and register components used in markdown
-      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      include: [/\.vue$/, /\.vue\?vue/],
 
       // custom resolvers
       resolvers: [
@@ -64,7 +65,6 @@ export default defineConfig({
           // enabledCollections: ['carbon']
         }),
         // VuetifyResolver(),
-
       ],
 
       dts: 'src/components.d.ts',
@@ -73,31 +73,6 @@ export default defineConfig({
     // https://github.com/antfu/unplugin-icons
     Icons({
       autoInstall: true,
-    }),
-
-    /*  // https://github.com/antfu/vite-plugin-windicss
-    WindiCSS({
-      safelist: markdownWrapperClasses,
-    }),
-*/
-    // https://github.com/antfu/vite-plugin-md
-    // Don't need this? Try vitesse-lite: https://github.com/antfu/vitesse-lite
-    Markdown({
-      wrapperClasses: markdownWrapperClasses,
-      headEnabled: true,
-      markdownItSetup(md) {
-        // https://prismjs.com/
-        // @ts-expect-error types mismatch
-        md.use(Prism)
-        // @ts-expect-error types mismatch
-        md.use(LinkAttributes, {
-          pattern: /^https?:\/\//,
-          attrs: {
-            target: '_blank',
-            rel: 'noopener',
-          },
-        })
-      },
     }),
 
     // https://github.com/antfu/vite-plugin-pwa
@@ -134,9 +109,7 @@ export default defineConfig({
       // change this to enable inspect for debugging
       enabled: false,
     }),
-
   ],
-
   server: {
     fs: {
       strict: true,
@@ -161,3 +134,11 @@ export default defineConfig({
     ],
   },
 })
+
+function getDirectories(path) {
+  return fs.readdirSync(path).filter((file) => {
+    if (!file.startsWith('.'))
+      return fs.statSync(`${path}/${file}`).isDirectory()
+    return false
+  })
+}

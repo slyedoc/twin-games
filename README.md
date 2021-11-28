@@ -51,9 +51,16 @@ So when I decided to try this project for the third time I was looking for an ex
 
 Also, as I'm already rather proficient in Typescript and Vue, I should be much more productive than I this time vs trying to learn flutter at the same time. 
 
+## Rust Setup
 
+- Install Rustup
+- Run ```rustup default nightly```
+- Run ```cargo update```
+- Run ```cargo build --release```
 
+## Useful Cargo commands
 
-
-
-
+- ```cargo update``` if your changing crates
+- ```cargo run --release --example=SOMETHING``` to run an example
+- ```cargo run --release --package=SOMETHING``` to run one of the games
+- ```cargo watch --clear -x "run --release --package=SOMETHING"``` for hot reloading
