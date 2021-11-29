@@ -6,12 +6,12 @@ resolver = "2"
 
 [workspace]
 members = [
-    "engine",
-    "games/*"
+    "packages/frontend_wasm/engine",
+    "packages/frontend_wasm/games/*",
 ]
 
 [dev-dependencies]
-engine = { path = "engine" }
+engine = { path = "packages/frontend_wasm/engine" }
 wasm-bindgen = "0.2.78"
 bevy = { version = "0.5.0", default-features = false,    features = [
      "bevy_render2",

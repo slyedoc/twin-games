@@ -23,8 +23,6 @@ const go = () => {
       Welcome to the start of Twin Games!
 
       <br />
-
-      <wasm-cubism />
     </v-card-text>
   </v-card>
 </template>

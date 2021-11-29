@@ -49,19 +49,10 @@ I then started working a version of this project that used flutter and web socke
 
 So when I decided to try this project for the third time I was looking for an example of a good socket based web game and i found [nakama](https://github.com/heroiclabs/nakama/) which looks to provide even better functionality for my use case.
 
-Also, as I'm already rather proficient in Typescript and Vue, I should be much more productive than I this time vs trying to learn flutter at the same time. 
+Also, as I'm already rather proficient in Typescript and Vue, I should be much more productive than I this time vs trying to learn flutter at the same time.
 
-## Rust Setup
+// TODO: Chris's blog articles
 
-- Install Rustup
-- Run ```rustup default nightly```
-- Run ```rustup target add wasm32-unknown-unknown```
-- Run ```cargo update```
-- Run ```cargo build --release```
+# Instructions
 
-## Useful Cargo commands
-
-- ```cargo update``` if your changing crates
-- ```cargo run --release --example=SOMETHING``` to run an example
-- ```cargo run --release --package=SOMETHING``` to run one of the games
-- ```cargo watch --clear -x "run --release --package=SOMETHING"``` for hot reloading
+    [Setup](docs/setup.md)

@@ -24,8 +24,8 @@ export default defineConfig({
     // https://github.com/lencx/vite-plugin-rsw#plugin-options
     // https://rustwasm.github.io/docs/wasm-pack/commands/build.html
     ViteRsw({
-      root: '../../games',
-      crates: getDirectories('../../games').map((dir) => { return { name: `${dir}`, outDir: `../../packages/wasm/src/wasm/${dir}` } }),
+      root: 'games',
+      crates: getDirectories('games').map((dir) => { return { name: `${dir}` } }), //, outDir: `pkg/${dir}`
     }),
 
     // https://github.com/vitejs/vite/tree/main/packages/plugin-vue#readme
@@ -137,7 +137,7 @@ export default defineConfig({
   },
 })
 
-function getDirectories(path) {
+function getDirectories(path: string) {
   return fs.readdirSync(path).filter((file) => {
     if (!file.startsWith('.'))
       return fs.statSync(`${path}/${file}`).isDirectory()
