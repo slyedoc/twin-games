@@ -7,8 +7,8 @@ export const constants = {
     tickRate: 1,
     maxEmptySec: 30,
     delayBetweenGamesSec: 5,
-    turnTimeFastSec: 10,
-    turnTimeNormalSec: 20
+    turnTimeFastSec: 30,
+    turnTimeNormalSec: 60
 }
 
 
@@ -22,6 +22,17 @@ export const winningPositions: number[][] = [
   [0, 4, 8],
   [2, 4, 6],
 ]
+
+export enum GameLoopResult {
+    Unknown = 'Unknown',
+    Initialized = 'Initialized',
+    Start = 'Start',
+    NotEnoughPlayers = 'NotEnoughPlayers',   
+    PlayerMoved = 'PlayerMoved',
+    Winner = 'Winner',
+    Tie = 'Tie',
+}
+  
 
 export interface MatchLabel {
   open: number
@@ -52,5 +63,9 @@ export interface State {
   // The winner positions.
   winnerPositions: BoardPosition[] | null
   // Ticks until the next game starts, if applicable.
-  nextGameRemainingTicks: number
+  nextGameRemainingTicks: number,
+
+  // added to debug the state the game loop is in.
+  gameLoopResult: GameLoopResult,
+
 }

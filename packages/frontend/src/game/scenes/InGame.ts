@@ -1,10 +1,11 @@
 
-import { Board, OpCode, DoneMessage, UpdateMessage, StartMessage, OpCodeAndMessage } from '@twin-games/shared'
+import { Board, OpCode, DoneMessage, UpdateMessage, markToString, StartMessage, OpCodeAndMessage, Mark } from '@twin-games/shared'
 import { CONFIG } from '../config'
 import Nakama from '../nakama'
 
+
 type Position = {
-  [key: number]: {x: number; y: number}
+  [key: number]: {x: number; y: number, imageHandle: Phaser.GameObjects.Image | null}
 }
 
 export default class InGame extends Phaser.Scene {
@@ -14,7 +15,7 @@ export default class InGame extends Phaser.Scene {
   private playerTurn = false
   private headerText: Phaser.GameObjects.Text | null = null
   private phaser = this
-  private playerPos = {}
+  private playerMark: Mark | null = null
 
   constructor() {
     super('in-game')
@@ -24,14 +25,13 @@ export default class InGame extends Phaser.Scene {
 
   // ep4
   updateBoard(board: Board) {
-    board.forEach((element: any, index: number) => {
+    board.forEach((element: Mark | null, index: number) => {
       const newImage = this.INDEX_TO_POS[index]
-
-      if (element === 1)
-        this.phaser.add.image(newImage.x, newImage.y, 'O')
-
-      else if (element === 2)
-        this.phaser.add.image(newImage.x, newImage.y, 'X')
+      if (element === Mark.O && newImage.imageHandle === null) {
+         newImage.imageHandle = this.phaser.add.image(newImage.x, newImage.y, 'O')
+      } else if (element === Mark.X && newImage.imageHandle === null) {
+        newImage.imageHandle =this.phaser.add.image(newImage.x, newImage.y, 'X')
+      }       
     })
   }
 
@@ -39,19 +39,32 @@ export default class InGame extends Phaser.Scene {
     this.playerTurn = !this.playerTurn
 
     if (this.playerTurn)
-      this.headerText!.setText('Your turn!')
+      this.headerText!.setText(`Your turn! (${markToString(this.playerMark)})`)
 
     else
       this.headerText!.setText('Opponents turn!')
   }
+  updatePlayerMark(data: StartMessage) {
+    const userId = localStorage.getItem('user_id')
 
+    
+    if (data.marks[userId!] === data.mark) {
+      this.playerMark = data.mark
+     
+    }
+    else {
+      // if not our turn, then we have the other mark.
+      this.playerMark = data.mark === Mark.X ? Mark.O : Mark.X
+    }
+  }
   setPlayerTurn(data: StartMessage) {
     const userId = localStorage.getItem('user_id')
 
-    if (data.marks[userId!] === 1) {
+
+    if (data.marks[userId!] === data.mark) {
       this.playerTurn = true
-      this.playerPos = 1
-      this.headerText!.setText('Your turn!')
+      this.playerMark = data.mark
+      this.headerText!.setText(`Your turn! - (${markToString(this.playerMark)})`)
     }
     else {
       this.headerText!.setText('Opponents turn!')
@@ -61,7 +74,7 @@ export default class InGame extends Phaser.Scene {
   endGame(data: DoneMessage) {
     this.updateBoard(data.board)
 
-    if (data.winner === this.playerPos)
+    if (data.winner === this.playerMark)
       this.headerText!.setText('Winner!')
 
     else
@@ -73,23 +86,39 @@ export default class InGame extends Phaser.Scene {
     if (Nakama.socket !== null) {
       Nakama.socket.onmatchdata = (result: OpCodeAndMessage) => {
 
-        console.log(`updateMsg: ${result.op_code}`, result.data)
+        console.log(`onmatchdata: ${result.op_code}`, result.data)
         switch (result.op_code) {
           case OpCode.START:
+            console.log("start received:", result)
             const startMsg = result.data as StartMessage;
             this.gameStarted = true
+
+            Object.keys(this.INDEX_TO_POS).forEach((elementKey) => {
+              const element = this.INDEX_TO_POS[elementKey as any]
+              
+              if (element.imageHandle !== null) {
+                console.log('destroy element', element)
+                element.imageHandle.destroy(true)
+                element.imageHandle = null
+              }
+            })
+            this.updatePlayerMark(startMsg)
             this.setPlayerTurn(startMsg)
+            this.updateBoard(startMsg.board) // so after restart the board is updated
             break
           case OpCode.UPDATE:  
             const updateMsg = result.data as UpdateMessage
-            console.log(updateMsg)
+            console.log("update received:", updateMsg)
             
             this.updateBoard(updateMsg.board)
             this.updatePlayerTurn()
             break
           case OpCode.DONE:
+            console.log("DONE received:", result)
             this.endGame(result.data as DoneMessage)
             break
+          default:
+            console.log('unhandled message received:', result)
         }
       }
     }
@@ -133,17 +162,17 @@ export default class InGame extends Phaser.Scene {
     const gridRight = gridCenterX + gridCellWidth
 
     this.INDEX_TO_POS = {
-      0: { x: gridLeft, y: topY },
-      1: { x: gridCenterX, y: topY },
-      2: { x: gridRight, y: topY },
+      0: { x: gridLeft, y: topY, imageHandle: null },
+      1: { x: gridCenterX, y: topY, imageHandle: null },
+      2: { x: gridRight, y: topY , imageHandle: null },
 
-      3: { x: gridLeft, y: gridCenterY },
-      4: { x: gridCenterX, y: gridCenterY },
-      5: { x: gridRight, y: gridCenterY },
+      3: { x: gridLeft, y: gridCenterY , imageHandle: null },
+      4: { x: gridCenterX, y: gridCenterY , imageHandle: null },
+      5: { x: gridRight, y: gridCenterY , imageHandle: null },
 
-      6: { x: gridLeft, y: bottomY },
-      7: { x: gridCenterX, y: bottomY },
-      8: { x: gridRight, y: bottomY },
+      6: { x: gridLeft, y: bottomY , imageHandle: null },
+      7: { x: gridCenterX, y: bottomY , imageHandle: null },
+      8: { x: gridRight, y: bottomY , imageHandle: null },
     }
 
     this.nakamaListener()
@@ -242,3 +271,4 @@ export default class InGame extends Phaser.Scene {
       })
   }
 }
+
