@@ -1,6 +1,5 @@
 <template>
   <div class="wasm-cubism">
-    hi
   </div>
 </template>
 
@@ -8,15 +7,16 @@
 import init from 'cubism'
 import { ref, defineComponent } from 'vue'
 
-// init wasm
-init('./cubism.wasm').then((wasm) => {
-  wasm.run()
-})
+// WILL BLOW UP
+// init('cubism/cubism_bg.wasm').then((wasm) => {
+//   wasm.run()
+// })
 
 export default defineComponent({
   name: 'WasmCubism',
   setup: () => {
 
   },
+
 })
 </script>

@@ -24,7 +24,7 @@ const go = () => {
 
       <br />
 
-      <tic-tac-toe-game></tic-tac-toe-game>
+      <wasm-cubism />
     </v-card-text>
   </v-card>
 </template>

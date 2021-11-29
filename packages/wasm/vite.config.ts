@@ -25,7 +25,7 @@ export default defineConfig({
     // https://rustwasm.github.io/docs/wasm-pack/commands/build.html
     ViteRsw({
       root: '../../games',
-      crates: getDirectories('../../games').map((dir) => { return { name: `${dir}`, outDir: `../../packages/wasm/public/${dir}` } }),
+      crates: getDirectories('../../games').map((dir) => { return { name: `${dir}`, outDir: `../../packages/wasm/src/wasm/${dir}` } }),
     }),
 
     // https://github.com/vitejs/vite/tree/main/packages/plugin-vue#readme
@@ -131,6 +131,8 @@ export default defineConfig({
     ],
     exclude: [
       'vue-demi',
+      'cubism',
+      'disco',
     ],
   },
 })

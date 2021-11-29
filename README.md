@@ -55,6 +55,7 @@ Also, as I'm already rather proficient in Typescript and Vue, I should be much m
 
 - Install Rustup
 - Run ```rustup default nightly```
+- Run ```rustup target add wasm32-unknown-unknown```
 - Run ```cargo update```
 - Run ```cargo build --release```
 
