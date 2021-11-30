@@ -29,6 +29,7 @@ export default defineConfig({
                 return {
                     name: `${dir}`,
                     outDir: `${path.resolve(__dirname, 'pkg')}/${dir}`,
+                    unwatch: [`${path.resolve(__dirname, 'pkg')}`]
                 }
             }),
         }),

@@ -3,13 +3,21 @@
 mod camera_controller;
 mod config;
 mod editor;
-mod materials;
 mod loaders;
+mod materials;
 mod shapes;
 
 #[cfg(not(target_arch = "wasm32"))]
 use bevy::app::AppExit;
-use bevy::{diagnostic::*, prelude::*, PipelinedDefaultPlugins};
+use bevy::{
+    core_pipeline::ClearColor,
+    diagnostic::*,
+    input::Input,
+    prelude::{App, EventWriter, KeyCode, Plugin, Res, ResMut},
+    render2::{color::Color, view::Msaa},
+    window::WindowDescriptor,
+    PipelinedDefaultPlugins,
+};
 
 use bevy_inspector_egui::{WorldInspectorParams, WorldInspectorPlugin};
 
@@ -20,7 +28,7 @@ use materials::MaterialPlugin;
 use shapes::ShapePlugin;
 pub mod prelude {
     pub use crate::{
-        camera_controller::*, materials::*, loaders::*, shapes::*, StandardEnvironmentPlugin,
+        camera_controller::*, loaders::*, materials::*, shapes::*, StandardEnvironmentPlugin,
     };
 }
 
@@ -28,35 +36,24 @@ pub struct StandardEnvironmentPlugin;
 
 impl Plugin for StandardEnvironmentPlugin {
     fn build(&self, app: &mut App) {
-
         // limiting for wasm firefox
         #[cfg(target_arch = "wasm32")]
         app.insert_resource(bevy::pbr2::DirectionalLightShadowMap { size: 2048 });
 
-        app.insert_resource(Msaa { samples: 4 })
-            .insert_resource(WindowDescriptor {
-                title: "Twin Games".to_string(),
-                width: 800.0,
-                height: 600.0,
-                vsync: false, // disable to break 60 fps
-                ..Default::default()
-            })
-            .add_plugins(PipelinedDefaultPlugins)
+        app.add_plugins(PipelinedDefaultPlugins)
+            .insert_resource(Msaa { samples: 4 })
+            .insert_resource(ClearColor(Color::BLUE))
             .add_plugin(WorldInspectorPlugin::default())
             .add_plugin(EditorPlugin)
             .add_plugin(CameraControllerPlugin)
             .add_plugin(ShapePlugin)
-            .add_plugin(MaterialPlugin)
+        // .add_plugin(MaterialPlugin)
             .add_plugin(FrameTimeDiagnosticsPlugin)
-            //.add_plugin(LogDiagnosticsPlugin::default())
+            //.add_plugin(LogDiagnosticsPlugin::default());
             .add_system(control_system);
-        
-        
 
-        #[cfg(not(target_arch = "wasm32"))]
-        {
-            app.add_plugin(config::ConfigPlugin);
-        }
+        //#[cfg(not(target_arch = "wasm32"))]
+        // app.add_plugin(config::ConfigPlugin);
     }
 
     fn name(&self) -> &str {
@@ -65,7 +62,8 @@ impl Plugin for StandardEnvironmentPlugin {
 }
 
 fn control_system(
-    #[cfg(not(target_arch = "wasm32"))] mut exit: EventWriter<AppExit>,
+    #[cfg(not(target_arch = "wasm32"))]
+    mut exit: EventWriter<AppExit>,
     key_input: Res<Input<KeyCode>>,
     mut world_inspection: ResMut<WorldInspectorParams>,
 ) {

@@ -8,8 +8,8 @@ resolver = "2"
 
 
 [patch.crates-io]
-#bevy = { path = "../bevy" }
-bevy = { git = "https://github.com/slyedoc/bevy", branch = "main" }
+bevy = { path = "../../../bevy" }
+#bevy = { git = "https://github.com/slyedoc/bevy", branch = "main" }
 #bevy_asset_loader = { path = "../bevy_asset_loader/bevy_asset_loader" }
 #bevy_egui = { path = "../bevy_egui" }
 bevy_egui = { git = "https://github.com/slyedoc/bevy_egui", branch = "pipelined" }
