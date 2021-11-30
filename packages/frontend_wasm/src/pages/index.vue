@@ -1,17 +1,4 @@
 <script setup lang="ts">
-
-/*
-import { useUserStore } from '~/stores/user'
-
-const user = useUserStore()
-const name = ref(user.savedName)
-
-const router = useRouter()
-const go = () => {
-  if (name.value)
-    router.push(`/hi/${encodeURIComponent(name.value)}`)
-}
-*/
 </script>
 
 <template>
@@ -23,6 +10,16 @@ const go = () => {
       Welcome to the start of Twin Games!
 
       <br />
+      <router-link to="/cornell_box">
+        <v-btn color="primary">
+          Cornell Box
+        </v-btn>
+      </router-link>
+      <router-link to="/disco">
+        <v-btn color="primary">
+          Disco
+        </v-btn>
+      </router-link>
     </v-card-text>
   </v-card>
 </template>

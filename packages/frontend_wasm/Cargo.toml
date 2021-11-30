@@ -1,8 +1,8 @@
 
 [workspace]
 members = [
-    "packages/frontend_wasm/engine",
-    "packages/frontend_wasm/games/*",
+    "engine",
+    "games/*",
 ]
 resolver = "2"
 

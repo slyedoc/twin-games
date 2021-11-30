@@ -1,10 +1,10 @@
 <template>
   <v-card class="elevation-11">
     <v-card-title primary-title>
-      Disco
+      Cornell Box
     </v-card-title>
     <v-card-text>
-      <wasm-disco></wasm-disco>
+      <wasm-cornell-box></wasm-cornell-box>
     </v-card-text>
   </v-card>
 </template>

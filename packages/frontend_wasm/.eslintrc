@@ -1,8 +1,11 @@
 {
   "extends": [
-    "@antfu"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "semi": "off",
+    "@typescript-eslint/semi": ["off"],
     "no-console": "warn"
   }
 }

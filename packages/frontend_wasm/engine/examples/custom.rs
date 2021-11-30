@@ -1,4 +1,4 @@
-use bevy::{core::Name, math::Vec3, pbr2::*, prelude::{App, Assets, Commands, GlobalTransform, ResMut, Transform, info}, render2::{camera::PerspectiveCameraBundle, color::Color, mesh::{Mesh, shape}, view::{Visibility, ComputedVisibility}}};
+use bevy::{core::Name, math::Vec3, pbr2::*, prelude::{App, Assets, Commands, ResMut, Transform, info}, render2::{camera::PerspectiveCameraBundle, color::Color, mesh::{Mesh, shape}, }};
 use engine::prelude::*;
 
 fn main() {
@@ -19,7 +19,7 @@ fn setup(
     // cube
     commands.spawn_bundle(PbrBundle {
         mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
-        transform: Transform::from_xyz(0.0, 0.5, 0.0),    
+        transform: Transform::from_xyz(0.0, 0.5, 0.0),
         material: materials.add(StandardMaterial {
              base_color: Color::GREEN,
              ..Default::default()

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "build": "cross-env NODE_ENV=production vite-ssg build",
-    "dev": "vite --port 3334",
+    "dev": "vite",
     "lint": "eslint \"**/*.{vue,ts,js}\"",
     "lint-fix": "eslint \"**/*.{vue,ts,js}\" --fix",
     "test": "cypress open",
@@ -24,7 +24,7 @@
 
   },
   "devDependencies": {
-    "vite-plugin-rsw": "^1.9.2",
+    "vite-plugin-rsw": "^1.10.0",
     "@antfu/eslint-config": "^0.10.0",
     "@iconify-json/carbon": "^1.0.9",
     "@iconify-json/mdi": "^1.0.10",

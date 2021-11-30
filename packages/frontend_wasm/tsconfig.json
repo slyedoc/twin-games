@@ -10,7 +10,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-
+    
     "forceConsistentCasingInFileNames": true,
     "types": [
         "cypress",
@@ -18,9 +18,6 @@
         "vite-plugin-pages/client",
         "vite-plugin-vue-layouts/client"
     ],
-    "paths": {
-        "~/*": ["src/*"]
-      }
   },
-  "exclude": ["dist", "node_modules", ".rsw"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

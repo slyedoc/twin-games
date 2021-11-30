@@ -19,7 +19,8 @@
     "dev": "concurrently \"pnpm run dev --filter @twin-games/shared\" \"pnpm run dev --filter @twin-games/backend\" \"pnpm run dev --filter @twin-games/frontend\"",
     "build": "concurrently \"pnpm run build --filter @twin-games/shared\" \"pnpm run build --filter @twin-games/backend\" \"pnpm run build --filter @twin-games/frontend\"",
     "typecheck": "concurrently \"pnpm run typecheck --filter @twin-games/shared\" \"pnpm run typecheck --filter @twin-games/backend\" \"pnpm run typecheck --filter @twin-games/frontend\"",    
-    "wasm": "pnpm run dev --filter @twin-games/frontend_wasm"
+    "wasm": "pnpm run dev --filter @twin-games/frontend_wasm",
+    "wasm_test": "pnpm run dev --filter wasm_test"
   },
   "devDependencies": {
     "concurrently": "^6.4.0",

@@ -72,7 +72,7 @@ fn setup(
         }),
         ..Default::default()
     })
-    .insert(Name::new("Wall"));;
+    .insert(Name::new("Wall"));
 
     // cube
     commands
