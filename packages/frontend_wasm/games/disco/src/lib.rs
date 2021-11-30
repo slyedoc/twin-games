@@ -1,47 +1,39 @@
 use bevy::{
     core::prelude::*,
+    core_pipeline::ClearColor,
     ecs::prelude::*,
+    input::Input,
     math::*,
     pbr2::*,
-    input::Input,
-    prelude::{App, KeyCode, BuildChildren, Assets, Commands, ResMut, Transform},
+    prelude::{App, Assets, BuildChildren, Commands, KeyCode, ResMut, Transform},
     render2::{
         camera::*,
         color::Color,
-        mesh::{Mesh, shape},
-    }, core_pipeline::ClearColor, window::WindowDescriptor
+        mesh::{shape, Mesh},
+    },
+    window::WindowDescriptor,
 };
 use engine::prelude::*;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub fn run() {
-    let mut app = App::new();
-
-    
-    
-    app
-    .insert_resource(WindowDescriptor {
-        title: "Twin Games".to_string(),
-         width: 500.0,
-         height: 500.0,
-         vsync: false, // disable to break 60 fps
-    //     resizable: true,
-        #[cfg(target_arch = "wasm32")]
-        canvas: Some("canvas.wasm".to_string()),
-         ..Default::default()
-     })
-     .add_plugin(StandardEnvironmentPlugin)
-     
-    .add_startup_system(setup);
+    App::new()
+        .insert_resource(WindowDescriptor {
+            title: "Twin Games - Disco".to_string(),
+            width: 500.0,
+            height: 500.0,
+            vsync: false, // disable to break 60 fps
+            //     resizable: true,
+            #[cfg(target_arch = "wasm32")]
+            canvas: Some("canvas.wasm".to_string()),
+            ..Default::default()
+        })
+        .add_plugin(StandardEnvironmentPlugin)
+        .add_startup_system(setup)
     // .add_system(movement)
     // .add_system(animate_light_direction)
-
-
-  
-
-    
-    app.run();
+        .run();
 }
 
 #[derive(Component)]
@@ -54,17 +46,17 @@ fn setup(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     // // ground plane
-    // commands
-    //     .spawn_bundle(PbrBundle {
-    //         mesh: meshes.add(Mesh::from(shape::Plane { size: 10.0 })),
-    //         material: materials.add(StandardMaterial {
-    //             base_color: Color::WHITE,
-    //             perceptual_roughness: 1.0,
-    //             ..Default::default()
-    //         }),
-    //         ..Default::default()
-    //     })
-    //     .insert(Name::new("ground"));
+    commands
+        .spawn_bundle(PbrBundle {
+            mesh: meshes.add(Mesh::from(shape::Plane { size: 10.0 })),
+            material: materials.add(StandardMaterial {
+                base_color: Color::WHITE,
+                perceptual_roughness: 1.0,
+                ..Default::default()
+            }),
+            ..Default::default()
+        })
+        .insert(Name::new("ground"));
 
     // // left wall
     // let mut transform = Transform::from_xyz(2.5, 2.5, 0.0);

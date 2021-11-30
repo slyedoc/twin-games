@@ -1,9 +1,8 @@
 <template>
-  <div class="wasm">
+  <div>
     <div v-if="!gpu">
       WebGPU not supported! Please visit <a href="//webgpu.io">webgpu.io</a> to see the current implementation status.
     </div>
-
     <canvas class="wasm"></canvas>
   </div>
 </template>
