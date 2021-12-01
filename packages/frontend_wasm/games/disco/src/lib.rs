@@ -21,8 +21,8 @@ pub fn run() {
     App::new()
         .insert_resource(WindowDescriptor {
             title: "Twin Games - Disco".to_string(),
-            width: 500.0,
-            height: 500.0,
+            width: 1024.0,
+            height: 780.0,
             vsync: false, // disable to break 60 fps
             //     resizable: true,
             #[cfg(target_arch = "wasm32")]

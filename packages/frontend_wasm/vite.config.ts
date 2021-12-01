@@ -49,8 +49,8 @@ export default defineConfig({
                 'vue',
                 'vue-router',
                 '@vueuse/head',
-                '@vueuse/core',
-            ],
+                //'@vueuse/core', // Erroring on windows
+            ],            
             dts: 'src/auto-imports.d.ts',
         }),
 
@@ -60,7 +60,7 @@ export default defineConfig({
             extensions: ['vue'],
 
             // allow auto import and register components used in markdown
-            include: [/\.vue$/, /\.vue\?vue/],
+            include: [/\.vue??/, /\.vue\?vue/],
 
             // custom resolvers
             resolvers: [
@@ -137,8 +137,6 @@ export default defineConfig({
         ],
         exclude: [
             'vue-demi',
-            'cubism',
-            'disco',
         ],
     },
 })
