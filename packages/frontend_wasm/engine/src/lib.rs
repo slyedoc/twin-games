@@ -15,7 +15,6 @@ use bevy::{
     input::Input,
     prelude::{App, EventWriter, KeyCode, Plugin, Res, ResMut},
     render2::{color::Color, view::Msaa},
-    window::WindowDescriptor,
     PipelinedDefaultPlugins,
 };
 
@@ -47,7 +46,7 @@ impl Plugin for StandardEnvironmentPlugin {
             .add_plugin(EditorPlugin)
             .add_plugin(CameraControllerPlugin)
             .add_plugin(ShapePlugin)
-        // .add_plugin(MaterialPlugin)
+            //.add_plugin(MaterialPlugin)
             .add_plugin(FrameTimeDiagnosticsPlugin)
             //.add_plugin(LogDiagnosticsPlugin::default());
             .add_system(control_system);

@@ -18,6 +18,7 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub fn run() {
+
     App::new()
         .insert_resource(WindowDescriptor {
             title: "Twin Games - Disco".to_string(),
