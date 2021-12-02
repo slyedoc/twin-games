@@ -21,8 +21,8 @@ pub fn run() {
     let mut app = App::new();
     app.insert_resource(WindowDescriptor {
             title: "Twin Games - Cornell Box".to_string(),
-            width: 800.0,
-            height: 500.0,
+            width: 800,
+            height: 600,
             // vsync: true, // disable to break 60 fps
             // resizable: true,
             #[cfg(target_arch = "wasm32")]
